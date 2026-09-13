@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Editar' if article else 'Escribir' }} artículo — Speech R' Us{% endblock %}
+
+{% block content %}
+<form class="editor" method="post" enctype="multipart/form-data" id="articleForm">
+  <input type="hidden" name="csrf" value="{{ csrf_token }}" id="csrf">
+  <input type="hidden" name="body" id="bodyField">
+  <input type="hidden" name="cover" value="{{ article.cover if article else '' }}">
+
+  <div class="editor-top">
+    <a href="{{ url_for('admin_articulos') }}">← Todos los artículos</a>
+    <div class="editor-actions">
+      <button class="btn ghost" type="submit" name="action" value="draft">Guardar borrador</button>
+      <button class="btn" type="submit" name="action" value="publish">Publicar en la página</button>
+    </div>
+  </div>
+
+  <label class="big-label">Título
+    <input name="title" required maxlength="180" value="{{ article.title if article else '' }}" placeholder="Ej. Cómo leer un cuento para que hable más">
+  </label>
+
+  <label>Resumen (2 líneas, sale en las tarjetas)
+    <textarea name="excerpt" rows="2" maxlength="400" placeholder="Una frase que invite a leer.">{{ article.excerpt if article else '' }}</textarea>
+  </label>
+
+  <div class="two">
+    <label>Categoría
+      <select name="category">
+        {% for c in categories %}
+          <option {{ 'selected' if article and article.category==c else '' }}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Dirección del artículo (opcional)
+      <input name="slug" maxlength="160" value="{{ article.slug if article else '' }}" placeholder="se crea sola si la dejas vacía">
+    </label>
+  </div>
+
+  <label>Foto de portada
+    <input type="file" name="cover_file" accept="image/*">
+  </label>
+  {% if article and article.cover %}
+    <img class="cover-preview" src="{{ article.cover }}" alt="">
+  {% endif %}
+
+  <label class="big-label">Láminas del post (formato Instagram)
+    <input type="file" name="slides" accept="image/*" multiple>
+  </label>
+  <p class="hint">Súbelas en este orden: 1 portada, 2 qué es, 3 qué debes saber, 4 señales, 5 comunícate — como los posts de Speech R' Us. Fondo azul, pastilla amarilla, título rojo.</p>
+  {% if slide_list %}
+  <p>Láminas actuales:</p>
+  <div class="two">
+    {% for src in slide_list %}
+      <img class="cover-preview" src="{{ src }}" alt="">
+    {% endfor %}
+  </div>
+  <label><input type="checkbox" name="replace_slides" value="1"> Reemplazar estas láminas con las nuevas (si no, se añaden al final)</label>
+  {% endif %}
+
+  <p class="big-label">Texto del artículo</p>
+  <div class="toolbar" id="toolbar">
+    <button type="button" data-cmd="bold">Negrita</button>
+    <button type="button" data-cmd="italic">Cursiva</button>
+    <button type="button" data-cmd="h2">Título</button>
+    <button type="button" data-cmd="h3">Subtítulo</button>
+    <button type="button" data-cmd="ul">Lista</button>
+    <button type="button" data-cmd="blockquote">Cita</button>
+    <button type="button" data-cmd="link">Enlace</button>
+    <button type="button" data-cmd="image">Foto en el texto</button>
+  </div>
+  <div class="paper-page" id="editor" contenteditable="true" role="textbox" aria-label="Texto del artículo">{{ article.body | safe if article else '<p></p>' }}</div>
+  <p class="hint">Escribe como en Word. Negrita, títulos y listas están en la barra. Publicar lo pone ahora mismo en Artículos.</p>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+{% endblock %}

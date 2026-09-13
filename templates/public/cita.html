@@ -1,0 +1,72 @@
+{% extends "public/base.html" %}
+{% block title %}Pedir cita — {{ clinic.clinic_name }}{% endblock %}
+{% block description %}Solicita una cita de evaluación o terapia en Hormigueros o Añasco.{% endblock %}
+
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('pedir_cita') }}</p>
+    <h1>{{ t('cita_h') }}</h1>
+    <p class="lead">{{ t('cita_p') }}</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap form-layout">
+    <form class="paper form" method="post" novalidate>
+      <input type="hidden" name="csrf" value="{{ csrf_token }}">
+      <p class="hp" aria-hidden="true"><label>Sitio web <input name="website" tabindex="-1" autocomplete="off"></label></p>
+
+      <label>{{ t('your_name') }}
+        <input name="parent_name" required maxlength="120" autocomplete="name">
+      </label>
+      <div class="two">
+        <label>{{ t('child_name') }}
+          <input name="child_name" maxlength="120">
+        </label>
+        <label>{{ t('age') }}
+          <input name="child_age" maxlength="40">
+        </label>
+      </div>
+      <div class="two">
+        <label>{{ t('phone') }}
+          <input name="phone" type="tel" required maxlength="40" autocomplete="tel">
+        </label>
+        <label>{{ t('mail') }}
+          <input name="email" type="email" maxlength="120" autocomplete="email">
+        </label>
+      </div>
+      <div class="two">
+        <label>{{ t('clinic_lbl') }}
+          <select name="clinic">
+            {% for c in clinics %}<option>{{ c }}</option>{% endfor %}
+          </select>
+        </label>
+        <label>{{ t('service_lbl') }}
+          <select name="service">
+            {% for s in services %}<option>{{ s }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      <label>{{ t('when_lbl') }}
+        <input name="preferred" maxlength="200">
+      </label>
+      <label>{{ t('worry') }}
+        <textarea name="notes" rows="5" maxlength="2000"></textarea>
+      </label>
+      <button class="btn solid lg" type="submit">{{ t('send_cita') }}</button>
+      <p class="fine">{{ t('cita_fine') }}</p>
+    </form>
+    <aside class="form-aside">
+      <div class="paper">
+        <h2>{{ t('now_talk') }}</h2>
+        <p><a class="btn solid" href="{{ clinic.tel }}">Hormigueros {{ clinic.phone }}</a></p>
+        <p><a class="btn ghost" href="{{ clinic.anasco_tel }}">Añasco {{ clinic.anasco_phone }}</a></p>
+        <p><a class="btn ghost" href="{{ clinic.whatsapp }}" target="_blank" rel="noopener">{{ t('wa_h') }}</a></p>
+        <p><a class="btn ghost" href="{{ clinic.anasco_whatsapp }}" target="_blank" rel="noopener">{{ t('wa_a') }}</a></p>
+        <p class="fine">{{ clinic.hours }}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

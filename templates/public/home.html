@@ -1,0 +1,195 @@
+{% extends "public/base.html" %}
+{% block title %}{{ clinic.clinic_name }} — {{ t('hero_eyebrow') }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-card">
+      <p class="eyebrow scribble">{{ t('hero_eyebrow') }}</p>
+      <h1>{{ t('hero_h1') }}</h1>
+      <p class="lead">{{ clinic.welcome }}</p>
+      <div class="hero-cta">
+        <a class="btn solid lg" href="/cita">{{ t('pedir_una_cita') }}</a>
+        <a class="btn ghost lg" href="#guias">{{ 'Explorar las guías ↗' if lang == 'es' else 'Explore the guides ↗' }}</a>
+      </div>
+    </div>
+    <figure class="hero-art">
+      <img src="{{ url_for('static', filename='img/brand/centro-terapias-hero.webp') }}" alt="Centro de Terapias Integradas" width="1124" height="1406" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+</section>
+
+{% include "public/_guides.html" %}
+
+<section class="strip">
+  <div class="wrap strip-row">
+    <p>{{ t('strip_clinics') }}</p>
+    <p>{{ t('strip_kids') }}</p>
+    <p>{{ t('strip_plans') }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split integradas">
+    <div>
+      <p class="pill">{{ t('integradas_pill') }}</p>
+      <p class="lead">{{ t('integradas_p') }}</p>
+    </div>
+    {% if lang == 'es' %}
+    <figure class="round-art">
+      <img src="{{ url_for('static', filename='img/brand/flyer-integradas.webp') }}" alt="{{ t('integradas_pill') }}" loading="lazy" decoding="async">
+    </figure>
+    {% else %}
+    <div class="paper flyer-en">
+      <h2>Speech R' Us</h2>
+      <p>{{ t('integradas_p') }}</p>
+      <ul class="checks">
+        <li>Evaluations</li>
+        <li>Speech and language</li>
+        <li>Occupational therapy</li>
+        <li>Psychology</li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ t('nav_servicios') }}</p>
+      <h2>{{ t('serv_head') }}</h2>
+      <p>{{ t('serv_p') }}</p>
+    </header>
+    <div class="cards-3">
+      <a class="card service" href="/servicios#habla">
+        <img src="{{ img_url('img/characters-speech.png') }}" alt="" loading="lazy" decoding="async">
+        <h3>{{ t('serv_habla') }}</h3>
+        <p>{{ t('serv_habla_p') }}</p>
+      </a>
+      <a class="card service" href="/servicios#ocupacional">
+        <img src="{{ url_for('static', filename='img/characters-ot.webp') }}" alt="" loading="lazy" decoding="async">
+        <h3>{{ t('serv_ot') }}</h3>
+        <p>{{ t('serv_ot_p') }}</p>
+      </a>
+      <a class="card service" href="/servicios#psicologia">
+        <img src="{{ url_for('static', filename='img/characters-psych.webp') }}" alt="" loading="lazy" decoding="async">
+        <h3>{{ t('serv_psy') }}</h3>
+        <p>{{ t('serv_psy_p') }}</p>
+      </a>
+    </div>
+    <p class="more-link"><a href="/servicios">{{ t('ver_servicios') }}</a></p>
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap steps">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ t('how_eye') }}</p>
+      <h2>{{ t('how_h') }}</h2>
+    </header>
+    <ol class="step-list">
+      <li><span class="bubble">1</span><h3>{{ t('step1_t') }}</h3><p>{{ t('step1_p') }}</p></li>
+      <li><span class="bubble">2</span><h3>{{ t('step2_t') }}</h3><p>{{ t('step2_p') }}</p></li>
+      <li><span class="bubble">3</span><h3>{{ t('step3_t') }}</h3><p>{{ t('step3_p') }}</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ t('posts_eye') }}</p>
+      <h2>{{ t('posts_h') }}</h2>
+      <p>{{ t('posts_p') }}</p>
+    </header>
+    {% if lang == 'es' %}
+    <div class="carousel" data-carousel>
+      <div class="carousel-track">
+        <img class="is-on" src="{{ url_for('static', filename='img/brand/habla-1.png') }}" alt="">
+        <img src="{{ url_for('static', filename='img/brand/habla-2.png') }}" alt="">
+        <img src="{{ url_for('static', filename='img/brand/habla-3.png') }}" alt="">
+        <img src="{{ url_for('static', filename='img/brand/habla-4.png') }}" alt="">
+        <img src="{{ url_for('static', filename='img/brand/habla-5.png') }}" alt="">
+      </div>
+      <div class="carousel-nav">
+        <button type="button" data-prev>{{ t('prev') }}</button>
+        <button type="button" data-next>{{ t('next') }}</button>
+      </div>
+      <div class="carousel-dots" data-dots></div>
+    </div>
+    {% else %}
+    <div class="carousel" data-carousel>
+      <div class="carousel-track html-slides">
+        {% for title, body in habla_slides_en %}
+        <article class="html-slide {{ 'is-on' if loop.first else '' }}">
+          <p class="pill">{{ title }}</p>
+          <p>{{ body }}</p>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="carousel-nav">
+        <button type="button" data-prev>{{ t('prev') }}</button>
+        <button type="button" data-next>{{ t('next') }}</button>
+      </div>
+      <div class="carousel-dots" data-dots></div>
+    </div>
+    {% endif %}
+    <p class="more-link"><a href="/articulos/terapia-de-habla-y-lenguaje">{{ t('open_post') }}</a></p>
+  </div>
+</section>
+
+{% if quotes %}
+<section class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ t('quotes') }}</p>
+    </header>
+    <div class="cards-3">
+      {% for q in quotes %}
+      <blockquote class="paper quote-card">
+        <p>{{ q.quote_en if lang=='en' and q.quote_en else q.quote }}</p>
+        <cite>{{ q.who }}</cite>
+      </blockquote>
+      {% endfor %}
+    </div>
+    <p class="more-link"><a href="/testimonios">{{ t('quotes') }}</a></p>
+  </div>
+</section>
+{% endif %}
+
+{% if articles %}
+<section class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ t('read_eye') }}</p>
+      <h2>{{ t('read_h') }}</h2>
+    </header>
+    <div class="cards-3">
+      {% for a in articles %}
+      <a class="card article" href="/articulos/{{ a.slug }}">
+        {% if a.cover %}<img src="{{ img_url(a.cover) }}" alt="" loading="lazy" decoding="async">{% else %}<div class="card-ph" aria-hidden="true"></div>{% endif %}
+        <p class="cat">{{ a.category }}</p>
+        <h3>{{ a.title }}</h3>
+        <p>{{ a.excerpt }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="more-link"><a href="/articulos">{{ t('all_arts') }}</a></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="cta-band">
+  <div class="wrap cta-inner paper">
+    <div>
+      <h2>{{ t('cta_h') }}</h2>
+      <p>{{ t('cta_p') }}</p>
+    </div>
+    <div class="hero-cta">
+      <a class="btn solid lg" href="/cita">{{ t('pedir_cita') }}</a>
+      <a class="btn ghost lg" href="/contacto">{{ t('escribirnos') }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

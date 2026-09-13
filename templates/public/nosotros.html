@@ -1,0 +1,86 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('nav_nosotros') }} — {{ clinic.clinic_name }}{% endblock %}
+
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('nav_nosotros') }}</p>
+    <h1>{{ about.h1 }}</h1>
+    <p class="lead">{{ about.lead }}</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap split">
+    <figure class="round-art">
+      <img src="{{ img_url('img/characters-waiting.png') }}" alt="Speech R' Us" loading="lazy" decoding="async">
+    </figure>
+    <div>
+      <h2>{{ about.why }}</h2>
+      <p>{{ about.why_p }}</p>
+      <h2>{{ about.mission }}</h2>
+      <p>{{ about.mission_p }}</p>
+      <h2>{{ about.vision }}</h2>
+      <p>{{ about.vision_p }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap loc-grid">
+    <article class="card loc">
+      <h2>Hormigueros</h2>
+      <p>{{ clinic.hormigueros_address }}</p>
+      <p><a href="{{ clinic.tel }}">{{ clinic.phone }}</a></p>
+      <p>{{ clinic.h_hours }}</p>
+      <a class="btn ghost" href="{{ clinic.hormigueros_maps }}" target="_blank" rel="noopener">{{ t('ver_mapa') }}</a>
+    </article>
+    <article class="card loc">
+      <h2>Añasco</h2>
+      <p>{{ clinic.anasco_address }}</p>
+      <p><a href="{{ clinic.anasco_tel }}">{{ clinic.anasco_phone }}</a></p>
+      <p>{{ clinic.a_hours }}</p>
+      <a class="btn ghost" href="{{ clinic.anasco_maps }}" target="_blank" rel="noopener">{{ t('ver_mapa') }}</a>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ about.team_eye }}</p>
+      <h2>{{ about.team_h }}</h2>
+      <p>{{ about.team_p }}</p>
+    </header>
+    <div class="team-grid">
+      {% for m in team %}
+      <article>
+        <h3>{{ m.name }}</h3>
+        <p>{% if lang=='en' and 'administrativo' in m.credential|lower %}{{ about.admin }}{% else %}{{ m.credential }}{% endif %}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ about.form_eye }}</p>
+      <h2>{{ about.form_h }}</h2>
+    </header>
+    <ul class="certs">
+      <li>PROMPT</li>
+      <li>Dynamic Temporal and Tactile Cueing (DTTC)</li>
+      <li>TalkTools Feeding Therapy: a motor approach</li>
+      <li>Oral sensory motor skills to support feeding in Down syndrome</li>
+      <li>Integrated Listening Systems</li>
+      <li>SOS Feeding Approach</li>
+      <li>The Listening Program</li>
+      <li>Best practices for pediatric feeding, motor speech and mouth development</li>
+      <li>Oral Placement Therapy</li>
+      <li>Picture Exchange Communication System (PECS)</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

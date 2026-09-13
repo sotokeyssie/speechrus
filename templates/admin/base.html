@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Panel — Speech R' Us{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin">
+  <header class="admin-top">
+    <a class="admin-brand" href="{{ url_for('admin_home') }}">
+      <img src="{{ url_for('static', filename='img/logo-transparent.png') }}" alt="" width="160" height="64">
+      <span>Panel de la clínica</span>
+    </a>
+    <nav>
+      <a href="{{ url_for('admin_home') }}">Bandeja</a>
+      <a href="{{ url_for('admin_articulos') }}">Artículos</a>
+      <a href="{{ url_for('admin_articulo_nuevo') }}" class="write">Escribir</a>
+      <a href="{{ url_for('admin_equipo') }}">Equipo</a>
+      <a href="{{ url_for('admin_talleres') }}">Talleres</a>
+      <a href="{{ url_for('admin_testimonios') }}">Testimonios</a>
+      <a href="{{ url_for('admin_ajustes') }}">Ajustes</a>
+      <a href="/" target="_blank" rel="noopener">Ver la página</a>
+    </nav>
+    <form method="post" action="{{ url_for('admin_logout') }}">
+      <input type="hidden" name="csrf" value="{{ csrf_token }}">
+      <button type="submit" class="linkish">Salir</button>
+    </form>
+  </header>
+  <main class="admin-main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <p class="flash {{ cat }}">{{ msg }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

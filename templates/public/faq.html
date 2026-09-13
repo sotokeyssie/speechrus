@@ -1,0 +1,20 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('faq') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('faq') }}</p>
+    <h1>{{ t('faq') }}</h1>
+  </div>
+</header>
+<section class="section">
+  <div class="wrap narrow">
+    {% for q, a in items %}
+    <article class="paper faq-item">
+      <h2>{{ q }}</h2>
+      <p>{{ a }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

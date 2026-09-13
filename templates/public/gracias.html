@@ -1,0 +1,23 @@
+{% extends "public/base.html" %}
+{% block title %}Recibido — {{ clinic.clinic_name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="wrap narrow paper thanks">
+    {% if kind == 'cita' %}
+      <p class="eyebrow scribble">{{ t('pedir_cita') }}</p>
+      <h1>{{ t('thanks_cita') }}</h1>
+      <p class="lead">{{ t('thanks_cita_p') }}</p>
+    {% else %}
+      <p class="eyebrow scribble">{{ t('cita_pregunta') }}</p>
+      <h1>{{ t('thanks_info') }}</h1>
+      <p class="lead">{{ t('thanks_info_p') }}</p>
+    {% endif %}
+    <div class="hero-cta">
+      <a class="btn solid" href="{{ clinic.tel }}">Hormigueros {{ clinic.phone }}</a>
+      <a class="btn ghost" href="{{ clinic.anasco_tel }}">Añasco {{ clinic.anasco_phone }}</a>
+      <a class="btn ghost" href="/">{{ t('back_home') }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

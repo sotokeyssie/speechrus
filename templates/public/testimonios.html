@@ -1,0 +1,20 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('quotes') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('quotes') }}</p>
+    <h1>{{ t('quotes') }}</h1>
+  </div>
+</header>
+<section class="section">
+  <div class="wrap cards-3">
+    {% for q in quotes %}
+    <blockquote class="paper quote-card">
+      <p>{{ q.quote_en if lang=='en' and q.quote_en else q.quote }}</p>
+      <cite>{{ q.who }}</cite>
+    </blockquote>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

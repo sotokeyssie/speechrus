@@ -1,0 +1,20 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('gallery') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('gallery') }}</p>
+    <h1>{{ t('gallery') }}</h1>
+  </div>
+</header>
+<section class="section">
+  <div class="wrap cards-3">
+    {% for src, es, en in gallery %}
+    <figure class="card">
+      <img src="{{ img_url(src) }}" alt="{{ en if lang=='en' else es }}" loading="lazy" decoding="async">
+      <h3>{{ en if lang=='en' else es }}</h3>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

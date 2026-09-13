@@ -1,0 +1,67 @@
+{% set guides = [
+  {'slug':'habla','title':'Terapia de habla y lenguaje','desc':'Comunicación, comprensión, voz y sonidos.','color':'#cf3438','count':5},
+  {'slug':'apraxia','title':'Apraxia del habla','desc':'Comunicación, sonidos y palabras.','color':'#008fb3','count':5},
+  {'slug':'disfagia','title':'Alimentación y disfagia','desc':'Acompañamiento a la hora de comer.','color':'#bc5d05','count':5},
+  {'slug':'psicologia','title':'Terapia psicológica','desc':'Un espacio para las emociones.','color':'#345abd','count':5},
+  {'slug':'ocupacional','title':'Terapia ocupacional','desc':'Más autonomía en su día a día.','color':'#4d782e','count':4}
+] %}
+{% set captions = ['Portada', 'Qué es', 'Qué debes saber', 'Señales para consultar', 'Queremos ayudarte'] %}
+
+<section class="section family-guides" id="guias">
+  <div class="wrap">
+    <header class="guide-heading">
+      <div>
+        <p class="eyebrow">{{ 'PARA ACOMPAÑARTE' if lang == 'es' else 'FOR YOUR FAMILY' }}</p>
+        <h2>{{ 'Entender es el primer paso.' if lang == 'es' else 'Understanding is the first step.' }}</h2>
+      </div>
+      <p>{{ 'Explora nuestras guías: qué es cada terapia, qué debes saber y cuándo buscar orientación.' if lang == 'es' else 'Explore our illustrated guides about each therapy. These resources are available in Spanish.' }}</p>
+    </header>
+
+    <div class="guide-grid" lang="es">
+      {% for guide in guides %}
+      <a class="guide-card" href="#guia-{{ guide.slug }}" data-guide-open="guia-{{ guide.slug }}" style="--guide-color:{{ guide.color }}">
+        <div class="guide-cover">
+          <img src="/static/img/guides/{{ guide.slug }}-0.webp" alt="{{ guide.title }}: guía ilustrada" width="1620" height="2025" loading="lazy" decoding="async">
+        </div>
+        <div class="guide-copy">
+          <span class="guide-meta">{{ guide.count }} láminas · En español</span>
+          <h3>{{ guide.title }}</h3>
+          <p>{{ guide.desc }}</p>
+          <span class="guide-link">Explorar guía <span aria-hidden="true">↗</span></span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div lang="es">
+      {% for guide in guides %}
+      <dialog class="guide-dialog" id="guia-{{ guide.slug }}" aria-labelledby="title-{{ guide.slug }}">
+        <header class="guide-toolbar">
+          <h2 id="title-{{ guide.slug }}">{{ guide.title }}</h2>
+          <form method="dialog"><button class="guide-close" aria-label="Cerrar guía">×</button></form>
+        </header>
+        <div class="guide-viewer" data-guide-viewer>
+          <div class="guide-pages">
+            {% for index in range(guide.count) %}
+            <figure {{ 'hidden' if not loop.first }}>
+              <img src="/static/img/guides/{{ guide.slug }}-{{ index }}.webp" alt="{{ guide.title }} — {{ captions[index] }}" width="1620" height="2025" loading="lazy" decoding="async">
+              <figcaption>{{ captions[index] }}</figcaption>
+            </figure>
+            {% endfor %}
+          </div>
+          <nav class="guide-controls" aria-label="Láminas de {{ guide.title }}">
+            <button type="button" data-guide-prev aria-label="Lámina anterior">←</button>
+            <span data-guide-count aria-live="polite">1 / {{ guide.count }}</span>
+            <button type="button" data-guide-next aria-label="Lámina siguiente">→</button>
+            <a data-guide-full href="/static/img/guides/{{ guide.slug }}-0.webp" target="_blank" rel="noopener">Ampliar ↗</a>
+          </nav>
+        </div>
+        <div class="guide-bottom">
+          <a class="btn solid" href="/cita">Solicitar orientación</a>
+          <a href="/contacto">Hablar con la clínica</a>
+        </div>
+      </dialog>
+      {% endfor %}
+    </div>
+  </div>
+</section>

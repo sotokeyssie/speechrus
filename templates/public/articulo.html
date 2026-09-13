@@ -1,0 +1,83 @@
+{% extends "public/base.html" %}
+{% block title %}{{ article.title }} — {{ clinic.clinic_name }}{% endblock %}
+{% block description %}{{ article.excerpt }}{% endblock %}
+
+{% block content %}
+<article class="article-page">
+  <header class="page-hero">
+    <div class="wrap narrow">
+      <p class="eyebrow scribble">{{ article.category }}</p>
+      <h1>{{ article.title }}</h1>
+      <p class="lead">{{ article.excerpt }}</p>
+      <p class="blog-meta">{{ article.author or "Speech R' Us" }} · {{ article.published_at | fecha }}</p>
+    </div>
+  </header>
+  {% if article.slug == 'terapia-de-habla-y-lenguaje' and lang == 'en' %}
+  <div class="wrap">
+    <div class="carousel" data-carousel>
+      <div class="carousel-track html-slides">
+        {% for title, body in habla_slides_en %}
+        <article class="html-slide {{ 'is-on' if loop.first else '' }}">
+          <p class="pill">{{ title }}</p>
+          <p>{{ body }}</p>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="carousel-nav">
+        <button type="button" data-prev>{{ t('prev') }}</button>
+        <button type="button" data-next>{{ t('next') }}</button>
+      </div>
+      <div class="carousel-dots" data-dots></div>
+    </div>
+  </div>
+  {% elif article.slide_list %}
+  <div class="wrap">
+    <div class="carousel" data-carousel>
+      <div class="carousel-track">
+        {% for src in article.slide_list %}
+        <img class="{{ 'is-on' if loop.first else '' }}" src="{{ img_url(src) }}" alt="{{ article.title }}">
+        {% endfor %}
+      </div>
+      <div class="carousel-nav">
+        <button type="button" data-prev>{{ t('prev') }}</button>
+        <button type="button" data-next>{{ t('next') }}</button>
+      </div>
+      <div class="carousel-dots" data-dots></div>
+    </div>
+  </div>
+  {% elif article.cover %}
+  <figure class="article-cover wrap narrow">
+    <img src="{{ img_url(article.cover) }}" alt="">
+  </figure>
+  {% endif %}
+  <div class="wrap narrow prose">
+    {{ article.body | safe }}
+  </div>
+  <div class="wrap narrow post-cta">
+    <p class="pill">{{ t('help_h') }}</p>
+    <p>{{ t('help_p') }}</p>
+    {% include "public/_phones.html" %}
+    <div class="hero-cta" style="justify-content:center;margin-top:1rem">
+      <a class="btn solid" href="/cita">{{ t('pedir_cita') }}</a>
+      <a class="btn ghost" href="/contacto">{{ t('cita_pregunta') }}</a>
+    </div>
+  </div>
+</article>
+
+{% if others %}
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-head">{{ t('more_read') }}</h2>
+    <div class="cards-3">
+      {% for a in others %}
+      <a class="card article" href="/articulos/{{ a.slug }}">
+        {% if a.cover %}<img src="{{ img_url(a.cover) }}" alt="">{% else %}<div class="card-ph" aria-hidden="true"></div>{% endif %}
+        <p class="cat">{{ a.category }}</p>
+        <h3>{{ a.title }}</h3>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

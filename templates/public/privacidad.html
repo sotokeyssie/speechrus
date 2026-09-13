@@ -1,0 +1,17 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('privacidad') }} — {{ clinic.clinic_name }}{% endblock %}
+
+{% block content %}
+<article class="article-page">
+  <header class="page-hero">
+    <div class="wrap narrow">
+      <h1>{{ t('privacidad') }}</h1>
+    </div>
+  </header>
+  <div class="wrap narrow prose">
+    <p>{{ privacy[0] }}</p>
+    <p>{{ privacy[1] }}</p>
+    <p>{{ privacy[2] }} <a href="mailto:{{ clinic.email }}">{{ clinic.email }}</a>.</p>
+  </div>
+</article>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('nav_articulos') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block description %}{{ t('arts_p') }}{% endblock %}
+
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('nav_articulos') }}</p>
+    <h1>{{ t('arts_h') }}</h1>
+    <p class="lead">{{ t('arts_p') }}</p>
+  </div>
+</header>
+
+{% if featured %}
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <a class="blog-feature" href="/articulos/{{ featured.slug }}">
+      {% if featured.cover %}
+      <img src="{{ img_url(featured.cover) }}" alt="">
+      {% endif %}
+      <div class="blog-feature-copy">
+        <p class="pill">{{ t('featured') }}</p>
+        <p class="cat">{{ featured.category }}</p>
+        <h2>{{ featured.title }}</h2>
+        <p>{{ featured.excerpt }}</p>
+        <p class="blog-meta">{{ featured.author or "Speech R' Us" }} · {{ featured.published_at | fecha }}</p>
+      </div>
+    </a>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    {% if categories %}
+    <div class="blog-filters" id="blogFilters">
+      <button type="button" class="is-on" data-cat="">{{ t('all') }}</button>
+      {% for c in categories %}
+      <button type="button" data-cat="{{ c }}">{{ c }}</button>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if articles %}
+    <div class="cards-3" id="blogGrid">
+      {% for a in articles %}
+      <a class="card article" href="/articulos/{{ a.slug }}" data-cat="{{ a.category }}">
+        {% if a.cover %}<img src="{{ img_url(a.cover) }}" alt="">{% else %}<div class="card-ph" aria-hidden="true"></div>{% endif %}
+        <p class="cat">{{ a.category }}</p>
+        <h3>{{ a.title }}</h3>
+        <p>{{ a.excerpt }}</p>
+        <p class="blog-meta">{{ a.author or "Speech R' Us" }} · {{ a.published_at | fecha }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">{{ t('empty_arts') }}</p>
+    {% endif %}
+  </div>
+</section>
+<script>
+(function () {
+  var bar = document.getElementById("blogFilters");
+  var grid = document.getElementById("blogGrid");
+  if (!bar || !grid) return;
+  bar.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    bar.querySelectorAll("button").forEach(function (b) { b.classList.toggle("is-on", b === btn); });
+    var cat = btn.getAttribute("data-cat") || "";
+    grid.querySelectorAll(".card").forEach(function (card) {
+      card.style.display = (!cat || card.getAttribute("data-cat") === cat) ? "" : "none";
+    });
+  });
+})();
+</script>
+{% endblock %}

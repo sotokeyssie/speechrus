@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% block title %}Artículos — Speech R' Us{% endblock %}
+
+{% block content %}
+<section class="welcome">
+  <h1>Artículos</h1>
+  <a class="btn big" href="{{ url_for('admin_articulo_nuevo') }}">Escribir uno nuevo</a>
+</section>
+<ul class="art-table">
+  {% for a in articles %}
+  <li>
+    <div>
+      <a class="title" href="{{ url_for('admin_articulo_editar', art_id=a.id) }}">{{ a.title }}</a>
+      <p>{{ a.category }} · actualizado {{ a.updated_at[:10] }}</p>
+    </div>
+    <span class="pill {{ a.status }}">{{ 'Publicado' if a.status=='published' else 'Borrador' }}</span>
+    <div class="row-actions">
+      {% if a.status=='published' %}
+        <a href="/articulos/{{ a.slug }}" target="_blank" rel="noopener">Ver</a>
+      {% endif %}
+      <a href="{{ url_for('admin_articulo_editar', art_id=a.id) }}">Editar</a>
+      <form method="post" action="{{ url_for('admin_articulo_borrar', art_id=a.id) }}" onsubmit="return confirm('¿Borrar este artículo?');">
+        <input type="hidden" name="csrf" value="{{ csrf_token }}">
+        <button type="submit" class="danger">Borrar</button>
+      </form>
+    </div>
+  </li>
+  {% else %}
+  <li class="empty">No hay artículos todavía.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

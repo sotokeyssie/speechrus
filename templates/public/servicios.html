@@ -1,0 +1,65 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('nav_servicios') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block description %}{{ svc.lead }}{% endblock %}
+
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('nav_servicios') }}</p>
+    <h1>{{ svc.h1 }}</h1>
+    <p class="lead">{{ svc.lead }}</p>
+  </div>
+</header>
+
+{% include "public/_guides.html" %}
+
+<section class="section">
+  <div class="wrap service-list">
+    {% for id, img, heading, para, items in svc.blocks %}
+    <article id="{{ id }}" class="service-row {{ 'reverse' if loop.index is even else '' }}">
+      <img src="{{ img_url(img) }}" alt="{{ heading }}" loading="lazy" decoding="async">
+      <div>
+        <h2>{{ heading }}</h2>
+        <p>{{ para }}</p>
+        {% if items %}
+        <ul>
+          {% for item in items %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow scribble">{{ svc.pay_eye }}</p>
+      <h2>{{ svc.pay_h }}</h2>
+      <p>{{ svc.pay_p }}</p>
+    </header>
+    <div class="plans">
+      {% for key in ['priv','vital','otro'] %}
+      <article class="paper plan">
+        <h3>{{ plans[key][0] }}</h3>
+        <ul>{% for item in plans[key][1] %}<li>{{ item }}</li>{% endfor %}</ul>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-inner paper">
+    <div>
+      <h2>{{ svc.unsure_h }}</h2>
+      <p>{{ svc.unsure_p }}</p>
+    </div>
+    <div class="hero-cta">
+      <a class="btn solid lg" href="/cita">{{ t('pedir_cita') }}</a>
+      <a class="btn ghost lg" href="/contacto">{{ t('cita_pregunta') }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

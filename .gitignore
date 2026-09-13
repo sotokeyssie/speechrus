@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+data/*.db
+data/*.db-*
+static/uploads/*
+!static/uploads/.gitkeep
+.DS_Store
+static/img/_shot/

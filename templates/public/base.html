@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ clinic.clinic_name }} — {{ clinic.tagline }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ clinic.welcome }}{% endblock %}">
+  <link rel="canonical" href="{{ request.base_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ clinic.clinic_name }}">
+  <meta property="og:locale" content="{{ 'es_PR' if lang == 'es' else 'en_US' }}">
+  <meta property="og:url" content="{{ request.base_url }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modern.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/magic.css') }}">
+  <meta name="view-transition" content="same-origin">
+</head>
+<body>
+  <div class="page-veil" id="pageVeil" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="magic-sky" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span>
+    <span class="blob b3"></span><span class="blob b4"></span>
+  </div>
+  <canvas id="sparkles" aria-hidden="true"></canvas>
+  <a class="skip" href="#contenido">{{ t('skip') }}</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/" aria-label="Speech R' Us">
+        <img src="{{ url_for('static', filename='img/logo-transparent.png') }}" alt="Speech R' Us, Centro de Terapias Integradas" width="500" height="200" decoding="async">
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" id="navToggle">{{ t('menu') }}</button>
+      <nav class="menu" id="menu">
+        {% for key, label, href in nav %}
+          <a href="{{ href }}" class="{{ 'is-on' if page==key else '' }}">{{ label }}</a>
+        {% endfor %}
+        <div class="menu-phones">
+          {% include "public/_phones.html" %}
+        </div>
+      </nav>
+      <div class="top-actions">
+        {% include "public/_phones.html" %}
+        <a class="lang-switch" href="/lang/{{ 'en' if lang=='es' else 'es' }}?next={{ request.path }}">{{ 'EN' if lang=='es' else 'ES' }}</a>
+        <a class="btn solid cita-btn" href="/cita">{{ t('pedir_cita') }}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="wrap flashes">
+          {% for cat, msg in messages %}
+            <p class="flash {{ cat }}">{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <section class="call-bar">
+    <div class="wrap">
+      <p class="call-title">{{ t('llamanos') }}</p>
+      {% include "public/_phones.html" %}
+    </div>
+  </section>
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div>
+        <h2>{{ t('visitamos') }}</h2>
+        <p><strong>Hormigueros</strong><br>
+        {% if clinic.hormigueros_maps %}<a href="{{ clinic.hormigueros_maps }}" target="_blank" rel="noopener">{{ clinic.hormigueros_address }}</a>{% else %}{{ clinic.hormigueros_address }}{% endif %}<br>
+        <a href="{{ clinic.tel }}">{{ clinic.phone }}</a><br>{{ clinic.h_hours }}</p>
+        <p><strong>Añasco</strong><br>
+        {% if clinic.anasco_maps %}<a href="{{ clinic.anasco_maps }}" target="_blank" rel="noopener">{{ clinic.anasco_address }}</a>{% else %}{{ clinic.anasco_address }}{% endif %}<br>
+        <a href="{{ clinic.anasco_tel }}">{{ clinic.anasco_phone }}</a><br>{{ clinic.a_hours }}</p>
+      </div>
+      <div>
+        <h2>{{ t('hablemos') }}</h2>
+        <p><a href="mailto:{{ clinic.email }}">{{ clinic.email }}</a></p>
+        <p><a href="{{ clinic.whatsapp }}" target="_blank" rel="noopener">{{ t('wa_h') }}</a></p>
+        <p><a href="{{ clinic.anasco_whatsapp }}" target="_blank" rel="noopener">{{ t('wa_a') }}</a></p>
+        <p><a href="{{ clinic.facebook }}" target="_blank" rel="noopener">{{ t('fb') }}</a></p>
+        {% if clinic.instagram %}<p><a href="{{ clinic.instagram }}" target="_blank" rel="noopener">{{ t('ig') }}</a></p>{% endif %}
+      </div>
+      <div>
+        <h2>{{ t('familias') }}</h2>
+        <p><a href="/cita">{{ t('pedir_una_cita') }}</a></p>
+        <p><a href="/contacto">{{ t('cita_pregunta') }}</a></p>
+        <p><a href="/preguntas">{{ t('faq') }}</a></p>
+        <p><a href="/primera-visita">{{ t('first_visit') }}</a></p>
+        <p><a href="/galeria">{{ t('gallery') }}</a></p>
+        <p><a href="/planes">{{ t('plans') }}</a></p>
+        <p><a href="/articulos">{{ t('nav_articulos') }}</a></p>
+        <p><a href="/privacidad">{{ t('privacidad') }}</a></p>
+      </div>
+    </div>
+    <p class="wrap copy">© {{ year }} {{ clinic.legal_name }}. {{ t('copy') }}</p>
+  </footer>
+  <div class="wa-float">
+    <button type="button" class="wa-toggle" id="waToggle">{{ t('wa_float') }}</button>
+    <div class="wa-panel" id="waPanel" hidden>
+      <a href="{{ clinic.whatsapp }}" target="_blank" rel="noopener">{{ t('wa_h') }}</a>
+      <a href="{{ clinic.anasco_whatsapp }}" target="_blank" rel="noopener">{{ t('wa_a') }}</a>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/guides.js') }}"></script>
+</body>
+</html>

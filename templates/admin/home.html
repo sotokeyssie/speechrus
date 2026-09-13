@@ -1,0 +1,102 @@
+{% extends "admin/base.html" %}
+{% block title %}Bandeja — Speech R' Us{% endblock %}
+
+{% block content %}
+<section class="welcome">
+  <div>
+    <h1>Hola{{ ', ' + session.get('user_name', '') if session.get('user_name') else '' }}.</h1>
+    <p>
+      {% if nueva_citas or nueva_info %}
+        Tienes
+        {% if nueva_citas %}<strong>{{ nueva_citas }} cita{{ 's' if nueva_citas != 1 else '' }} nueva{{ 's' if nueva_citas != 1 else '' }}</strong>{% endif %}
+        {% if nueva_citas and nueva_info %} y {% endif %}
+        {% if nueva_info %}<strong>{{ nueva_info }} pregunta{{ 's' if nueva_info != 1 else '' }}</strong>{% endif %}.
+      {% else %}
+        No hay solicitudes nuevas. Puedes escribir un artículo cuando quieras.
+      {% endif %}
+    </p>
+  </div>
+  <a class="btn big" href="{{ url_for('admin_articulo_nuevo') }}">Escribir un artículo</a>
+</section>
+
+<section class="inbox">
+  <h2>Citas pedidas por la página</h2>
+  {% if not citas %}
+    <p class="empty">Todavía no ha llegado ninguna.</p>
+  {% else %}
+    <ul class="ticket-list">
+      {% for c in citas %}
+      <li class="ticket {{ c.status }}">
+        <div>
+          <p class="who">{{ c.parent_name }}{% if c.child_name %} · {{ c.child_name }}{% if c.child_age %} ({{ c.child_age }}){% endif %}{% endif %}</p>
+          <p class="meta">{{ c.clinic }} · {{ c.service }} · {{ c.created_at[:16] }}</p>
+          {% if c.preferred %}<p>{{ c.preferred }}</p>{% endif %}
+          {% if c.notes %}<p class="notes">{{ c.notes }}</p>{% endif %}
+        </div>
+        <div class="actions">
+          {% if c.phone %}
+            <a class="btn small" href="tel:{{ c.phone }}">Llamar</a>
+            <a class="btn small ghost" href="{{ c.phone | wa }}" target="_blank" rel="noopener">WhatsApp</a>
+          {% endif %}
+          <form method="post" action="{{ url_for('admin_cita_estado', req_id=c.id) }}">
+            <input type="hidden" name="csrf" value="{{ csrf_token }}">
+            <select name="status" onchange="this.form.submit()">
+              {% for s in ['nueva','contactada','agendada','cerrada'] %}
+                <option value="{{ s }}" {{ 'selected' if c.status==s else '' }}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
+
+<section class="inbox">
+  <h2>Preguntas</h2>
+  {% if not infos %}
+    <p class="empty">Ninguna pregunta todavía.</p>
+  {% else %}
+    <ul class="ticket-list">
+      {% for i in infos %}
+      <li class="ticket {{ i.status }}">
+        <div>
+          <p class="who">{{ i.name }} · {{ i.topic }}</p>
+          <p class="meta">{{ i.created_at[:16] }}
+            {% if i.phone %} · {{ i.phone }}{% endif %}
+            {% if i.email %} · {{ i.email }}{% endif %}
+          </p>
+          <p class="notes">{{ i.message }}</p>
+        </div>
+        <div class="actions">
+          {% if i.phone %}<a class="btn small" href="tel:{{ i.phone }}">Llamar</a>{% endif %}
+          <form method="post" action="{{ url_for('admin_info_estado', req_id=i.id) }}">
+            <input type="hidden" name="csrf" value="{{ csrf_token }}">
+            <select name="status" onchange="this.form.submit()">
+              {% for s in ['nueva','respondida','cerrada'] %}
+                <option value="{{ s }}" {{ 'selected' if i.status==s else '' }}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
+
+<section class="inbox">
+  <h2>Artículos recientes</h2>
+  <ul class="art-mini">
+    {% for a in articles %}
+    <li>
+      <a href="{{ url_for('admin_articulo_editar', art_id=a.id) }}">{{ a.title }}</a>
+      <span class="pill {{ a.status }}">{{ 'Publicado' if a.status=='published' else 'Borrador' }}</span>
+    </li>
+    {% else %}
+    <li class="empty">Aún no hay artículos. El botón de arriba abre una hoja en blanco.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

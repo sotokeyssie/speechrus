@@ -1,0 +1,21 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('plans') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('plans') }}</p>
+    <h1>{{ t('plans') }}</h1>
+    <p class="lead">{{ plans.note }}</p>
+  </div>
+</header>
+<section class="section">
+  <div class="wrap plans">
+    {% for key in ['priv','vital','otro'] %}
+    <article class="paper plan">
+      <h3>{{ plans[key][0] }}</h3>
+      <ul>{% for item in plans[key][1] %}<li>{{ item }}</li>{% endfor %}</ul>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

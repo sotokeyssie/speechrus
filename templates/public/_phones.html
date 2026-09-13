@@ -1,0 +1,10 @@
+<nav class="phones {{ modifier|default('') }}" aria-label="Teléfonos de las clínicas">
+  <a href="{{ clinic.tel }}">
+    <span class="place">Hormigueros</span>
+    <span class="num">{{ clinic.phone }}</span>
+  </a>
+  <a href="{{ clinic.anasco_tel }}">
+    <span class="place">Añasco</span>
+    <span class="num">{{ clinic.anasco_phone }}</span>
+  </a>
+</nav>

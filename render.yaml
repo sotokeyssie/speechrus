@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: speech-rus
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false

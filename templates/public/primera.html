@@ -1,0 +1,24 @@
+{% extends "public/base.html" %}
+{% block title %}{{ t('first_visit') }} — {{ clinic.clinic_name }}{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow scribble">{{ t('first_visit') }}</p>
+    <h1>{{ t('first_visit') }}</h1>
+  </div>
+</header>
+<section class="section">
+  <div class="wrap steps">
+    <ol class="step-list">
+      {% for title, body in steps %}
+      <li>
+        <span class="bubble">{{ loop.index }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ body }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+    <p class="more-link"><a class="btn solid" href="/cita">{{ t('pedir_una_cita') }}</a></p>
+  </div>
+</section>
+{% endblock %}
