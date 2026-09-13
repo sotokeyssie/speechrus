@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#ffffff"/>
+  <path d="M90 430 c40-90 70-90 110 0 v90 h-20 v-70 c-20-70-50-70-70 0 v70 h-20 z" fill="none" stroke="#111" stroke-width="10"/>
+  <text x="145" y="360" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">DETECTION</text>
+  <path d="M200 500 C 420 620, 620 500, 780 430" fill="none" stroke="#2f5cb0" stroke-width="4" stroke-dasharray="8 8"/>
+  <path d="M820 40 h280 a80 80 0 0 1 80 80 v420 a200 240 0 0 1-400 20 z" fill="#111"/>
+  <ellipse cx="980" cy="250" rx="210" ry="170" fill="#fff"/>
+  <text x="980" y="120" text-anchor="middle" font-size="20" fill="#c0392b" font-family="Arial" font-weight="700">WORKING MEMORY</text>
+  <text x="980" y="155" text-anchor="middle" font-size="20" fill="#8e44ad" font-family="Arial" font-weight="700">INTEGRATION</text>
+  <text x="1080" y="185" text-anchor="middle" font-size="16" fill="#2980b9" font-family="Arial" font-weight="700">SPEECH SOUND INFO</text>
+  <text x="900" y="200" text-anchor="middle" font-size="20" fill="#2f5cb0" font-family="Arial" font-weight="700">ATTENTION</text>
+  <text x="900" y="240" text-anchor="middle" font-size="18" fill="#27ae60" font-family="Arial" font-weight="700">SPEECH PRODUCTION</text>
+  <text x="1100" y="240" text-anchor="middle" font-size="18" fill="#27ae60" font-family="Arial" font-weight="700">ASSOCIATION</text>
+  <text x="1100" y="280" text-anchor="middle" font-size="18" fill="#c0392b" font-family="Arial" font-weight="700">COMPREHENSION</text>
+  <text x="1100" y="340" text-anchor="middle" font-size="18" fill="#c0392b" font-family="Arial" font-weight="700">ANALYSIS</text>
+  <ellipse cx="1000" cy="300" rx="90" ry="40" fill="#d5f5e3" stroke="#27ae60"/>
+  <text x="1000" y="295" text-anchor="middle" font-size="13" font-family="Arial">SENSORY-MOTOR</text>
+  <text x="1000" y="312" text-anchor="middle" font-size="13" font-family="Arial">SIGNAL PICKUP</text>
+  <ellipse cx="1040" cy="255" rx="70" ry="32" fill="#d6eaf8" stroke="#2f5cb0"/>
+  <text x="1040" y="260" text-anchor="middle" font-size="13" font-family="Arial" font-weight="700">AUDITORY CORTEX</text>
+</svg>

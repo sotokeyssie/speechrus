@@ -60,3 +60,9 @@ El sitio utiliza SQLite (`data/site.db`). Su contenido inicial se reconstruye au
 pero las solicitudes, los cambios del panel y las imágenes subidas durante una sesión pueden
 perderse cuando Render reinicie el servicio gratuito. Para una presentación funciona bien; para
 uso diario se debe conectar almacenamiento persistente antes de recibir datos reales de familias.
+
+## Presentación estática en GitHub Pages
+
+`tools/export_github_pages.ps1` crea una copia para demostración dentro de `docs/`. Conserva las
+páginas, artículos, imágenes, animaciones y el cursor. GitHub Pages no ejecuta Python ni SQLite,
+por lo que los formularios abren WhatsApp y el panel administrativo no está disponible allí.
