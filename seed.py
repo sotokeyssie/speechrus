@@ -25,8 +25,9 @@ DEFAULT_SETTINGS = {
     "anasco_maps": "https://www.google.com/maps/search/?api=1&query=18.30177351403001,-67.15730632472926",
     "sanjuan_note": "",
     "welcome": (
-        "Acompañamos a niños y familias en Hormigueros y Añasco. "
-        "Jugamos en sesión y nos tomamos en serio el plan."
+        "Acompañamos a niños y sus familias, del área oeste en su desarrollo según su necesidad. "
+        "Jugamos en cada sesión y nos tomamos en serio el plan. "
+        "¡El bienestar de tu peque es nuestra prioridad!"
     ),
     "welcome_en": (
         "We walk with children and families in Hormigueros and Añasco. "
@@ -285,6 +286,10 @@ def seed() -> None:
         current["value"].startswith("En Speech R' Us acompañamos a niñas")
         or "adultos" in current["value"]
         or "Patología del habla y lenguaje, terapia ocupacional" in current["value"]
+        or current["value"] == (
+            "Acompañamos a niños y familias en Hormigueros y Añasco. "
+            "Jugamos en sesión y nos tomamos en serio el plan."
+        )
     ):
         set_setting("welcome", DEFAULT_SETTINGS["welcome"])
     mail = fetch_one("SELECT value FROM settings WHERE key='email'")
